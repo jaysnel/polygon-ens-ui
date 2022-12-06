@@ -5,7 +5,9 @@ export default function Button(props) {
 
     return (
         <button 
-        className={`${buttonStyles}`}
+        className={`
+        min-w-full hover:cursor-pointer px-5 py-3 text-lg
+        ${buttonStyles}`}
         onClick={() =>  buttonFunction ? buttonFunction() : undefined}>{buttonText}</button>
     )
 }
