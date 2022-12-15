@@ -85,7 +85,10 @@ function App() {
 
         let registerDomainName = await contract.register(domainName, {value: ethers.utils.parseEther(price)})
         registerDomainName.wait();
-        console.log('Domain name registered!')
+        console.log('Domain name registered!', domainName) 
+        const setTheRecord = await contract.setRecord(domainName, domainRecord);
+        setTheRecord.wait();
+        console.log('Record set!', domainRecord) 
 
         // let getDomainName = await contract.getAddress(domainName)
         // console.log('Domain Name: ', getDomainName)
@@ -95,10 +98,6 @@ function App() {
     } catch (err) {
       console.log(err.message);
     }
-    // console.log('Domain Name: ', domainName);
-    // console.log('Domain Name Record: ', domainRecord);
-    // console.log('ContractABI: ', contractAbi)
-    // console.log('ethers.js object: ', ethers) 
   }
 
   useEffect(() => {
@@ -112,12 +111,12 @@ function App() {
         <h1 className=''>Ghost ENS Service</h1>
         {currentAccount !== '' && <div>Account: {currentAccount}</div>}
         {isError && <div>{errorMessage || noWalletFound}</div>}
-        {!walletConnected && <button onClick={() => {connectWallet()}}>Connect Wallet</button>}
+        {!walletConnected && <Button buttonText='Connect Wallet' onClick={() => {connectWallet()}} buttonStyles='bg-slate-600 hover:bg-orange-900 border-0 rounded-xl transition duration-500 ease-in-out' />}
         {walletConnected && 
           <div>
             <div className='domain-input'><input type="text" maxLength="20" placeholder='Domain Name' onChange={setDomain}/><p className='tld'> {tld} </p></div>
             <div><input type="text" placeholder='Record' onChange={setRecord}/></div>
-            <div className='text-center'><Button buttonText='Mint' buttonFunction={mintDomain} buttonStyles='bg-slate-600 hover:bg-orange-900 duration-100 border-0 rounded-xl transition duration-500 ease-in-out'/></div>
+            <div className='text-center'><Button buttonText='Mint' buttonFunction={mintDomain} buttonStyles='bg-slate-600 hover:bg-orange-900 border-0 rounded-xl transition duration-500 ease-in-out'/></div>
           </div>}
       </div>
     </>
